@@ -1,8 +1,6 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
 **/.pytest_cache
-.DS_Store
-**/.DS_Store
 *.py[cod]
 *$py.class
 
@@ -61,5 +59,10 @@ docs/_build/
 # PyBuilder
 target/
 
+# OSX Crap files
+.DS_Store
+**/.DS_Store
+
 #Ipython Notebook
 .ipynb_checkpoints
+**/.ipynb_checkpoints
