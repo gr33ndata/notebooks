@@ -13,8 +13,12 @@ def auto_round(code):
                 args=[ast.Constant(value=node.value), ast.Constant(value=2)],
                 keywords=[]
             )
+        
     tree_editor = TreeEditor()
-    return ast.unparse(tree_editor.visit(ast.parse(code)))
+    
+    code_ast = ast.parse(code)
+    edited_code_ast = tree_editor.visit(code_ast)
+    return ast.unparse(edited_code_ast) # ast.unparse only available in Python 3.9 and up
 
 
 class ImportRewrite(importlib.abc.MetaPathFinder, importlib.abc.Loader):
@@ -34,7 +38,7 @@ class ImportRewrite(importlib.abc.MetaPathFinder, importlib.abc.Loader):
     def exec_module(self, module):
         with open(module.__spec__.origin,'r') as f:
             code = f.read()
-        edited_code = replace_floats_with_ints(code)
+        edited_code = auto_round(code)
         exec(edited_code, module.__dict__)
 
 
@@ -44,41 +48,6 @@ sys.meta_path.insert(0, ImportRewrite())
 # -------------------------
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 import myassert
 
 myassert.test_equal()
-
-
-
