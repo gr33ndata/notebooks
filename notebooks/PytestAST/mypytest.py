@@ -4,6 +4,9 @@ import importlib
 import importlib.abc
 import importlib.util
 
+
+# Reads AST, find floats and auto round them 
+# https://docs.python.org/3/library/ast.html
 def auto_round(code):
 
     class TreeEditor(ast.NodeTransformer):
@@ -21,6 +24,7 @@ def auto_round(code):
     return ast.unparse(edited_code_ast) # ast.unparse only available in Python 3.9 and up
 
 
+# Import hook that call's the AST manipulation function, auto_round
 class ImportRewrite(importlib.abc.MetaPathFinder, importlib.abc.Loader):
 
     def find_spec(self, fullname, path=None, target=None):
@@ -42,10 +46,24 @@ class ImportRewrite(importlib.abc.MetaPathFinder, importlib.abc.Loader):
         exec(edited_code, module.__dict__)
 
 
+# Set a new import hook 
 sys.meta_path.insert(0, ImportRewrite())
 
 
-# -------------------------
+
+
+
+
+
+
+
+
+
+
+
+# ---------------------#
+#     Original Code    |
+#----------------------#
 
 
 import myassert
